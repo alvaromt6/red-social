@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { BtnToggleTheme } from "./ui/btn/BtnToggleTheme";
+import { BtnLogout} from "./ui/btn/BtnLogout"
+import { BtnNewPost } from "./ui/btn/BtnNewPost"
 
 export const Sidebar = () => {
     const links = [
@@ -44,8 +46,8 @@ export const Sidebar = () => {
     return (
         <div className="h-screen p-2 bg-white dark:bg-bg-dark text-black dark:text-white transition-all duration-300 flex flex-col">
             {/* logo */}
-            <div className="flex justify-center items-center h-8 w-8 rounded-full bg-blue-100 text-primary font-bold text-xs m-2">
-                OD
+            <div className="flex justify-center items-center h-8 w-16 rounded-full bg-blue-100 text-primary font-bold text-xs m-2">
+                RedSocial
             </div>
             {/* NAV */}
             <nav className="flex-1 flex flex-col gap-2 items-center">
@@ -67,6 +69,8 @@ export const Sidebar = () => {
                 ))}
             </nav>
             <BtnToggleTheme/>
+            <BtnLogout/>
+            <BtnNewPost/>
         </div>
     );
 };
