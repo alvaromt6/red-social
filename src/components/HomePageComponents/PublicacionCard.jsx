@@ -25,6 +25,17 @@ export const PublicacionCard = () => {
         <div>
           <PostImageFrame src={"https://imgs.search.brave.com/TqdXmekdSaBRSSavrOLF3m8m7reFObU-iD2aEPxtq6Y/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvMjcx/MzIxNy5qcGc"} />
         </div>
+        <div className="flex justify-between mt-4">
+          <button className="flex items-center gap-2 cursor-pointer">
+            <Icon icon="mdi:thumb-up" className="text-3xl p-1 rounded-full text-gray-400 hover:bg-[rgba(78,184,223,0.2)] cursor-pointer"/>
+            {/* <span className="text-xs md:text-sm text-gray-400">Me Gusta</span> */}
+          </button>
+          <button className="flex items-center gap-2 cursor-pointer ">
+            <Icon icon="mdi:comment" className="text-3xl p-1 rounded-full text-gray-400 hover:bg-[rgba(78,184,223,0.2)] cursor-pointer"/>
+            {/* <span className="text-xs md:text-sm text-gray-400">Comentar</span> */}
+          </button>
+
+        </div>
       </div>
 
     </div>

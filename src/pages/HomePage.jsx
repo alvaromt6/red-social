@@ -12,13 +12,11 @@ export const HomePage = () => {
           <div className="overflow--y-auto">
             <InputPublicar/>
             <PublicacionCard/>
-
           </div>
-          Principal
         </article>
-        <article>
+        {/* <article>
           Side Derecho
-        </article>
+        </article> */}
       </section>
     </main>
   );
