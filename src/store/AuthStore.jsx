@@ -12,6 +12,10 @@ export const useAuthStore = create((set) => ({
         if (error) throw error;
         return data?.user || null;
     },
+    cerrarSesion: async () => {
+        await supabase.auth.signOut();
+        set({ credenciales: null });
+    }
 }));
 
 export const useSesion = create((set) => {
