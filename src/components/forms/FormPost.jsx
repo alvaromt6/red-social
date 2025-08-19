@@ -86,8 +86,18 @@ export const FormPost = () => {
             </div>
           </form>
         </main>
-        <footer>
-
+        
+        <footer className="p-4 border-t border-gray-500/40">
+            <div className="flex items-center justify-between p-3 border border-gray-500/40 rounded-lg">
+                <span className="text-sm dark:text-white">
+                    Agregar Publicación
+                </span>
+                <div className="flex space-x-4">
+                    <button className="p-1 rounded-full text-black/50 dark:text-white/50 hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Agregar imagen">
+                        <Icon icon="mdi:image-outline" className="text-gray-500 text-2xl" />
+                    </button>
+                </div>
+            </div>
         </footer>
       </section>
     </section>
