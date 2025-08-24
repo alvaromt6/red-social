@@ -3,6 +3,7 @@ import { useUsuariosStore } from "../../store/UsuarioStore";
 import { useRef, useState, useEffect } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { ImageSelector } from "../../hooks/useImageSelector";
 
 export const FormPost = () => {
   const { dataUsuario } = useUsuariosStore();
@@ -85,6 +86,8 @@ export const FormPost = () => {
                 </div>
             </div>
           </form>
+          <ImageSelector />
+
         </main>
         
         <footer className="p-4 border-t border-gray-500/40">
