@@ -9,8 +9,8 @@ export const useImageSelector = () => {
     const [fileType, setFileType] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef(null);
-    
-    const { setFile: setFileStore } = usePostStore();
+
+    const { setFile: setFileStore, stateImage, setStateImage } = usePostStore();
 
     const openFileSelector = () => {
         fileInputRef.current?.click();
@@ -119,22 +119,20 @@ export const ImageSelector = () => {
     } = useImageSelector();
 
     return (
-        <div className="mt-10 dark:bg-white p-4 rounded-lg shadow">
+        <div className="mt-10 p-6 dark:bg-white rounded-lg shadow">
             <div className="relative">
+                <button className="absolute right-0 bottom-8  text-gray-400 hover:text-black transition-colors duration-200 ">
+                    <Icon icon="mdi:close" width={20} height={20}  />
+                </button>
                 <input
-                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 pl-8"
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 "
                     type="file"
                     accept="image/*,video/*"
                     ref={fileInputRef}
                     onChange={handleImageChange}
                     disabled={isLoading}
                 />
-                <Icon 
-                    icon="mdi:upload" 
-                    width={20} 
-                    height={20} 
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-                />
+                
             </div>
             
             {isLoading && (
