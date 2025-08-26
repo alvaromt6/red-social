@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { ImageSelector } from "../../hooks/useImageSelector";
+import { usePostStore } from "../../store/PostStore";
 
 export const FormPost = () => {
   const { dataUsuario } = useUsuariosStore();
@@ -11,6 +12,7 @@ export const FormPost = () => {
   const textareaRef = useRef(null);
   const pickerRef = useRef(null);
   const [PostText, setPostText] = useState("");
+  const { stateImage, setStateImage, setStateForm } = usePostStore();
 
   const addEmoji = (emojiData) => {
 
@@ -48,7 +50,7 @@ export const FormPost = () => {
         {/* header */}
         <header className="flex items-center justify-between p-4 border-b border-gray-200/40 dark:border-gray-600/40">
           <h2 className="text-xl font-semibold">Crear Nueva Publicación</h2>
-          <BtnClose />
+          <BtnClose funcion={() => setStateForm(false)} />
         </header>
         <main className="p-4 space-y-4">
           {/* user info */}
@@ -86,7 +88,10 @@ export const FormPost = () => {
                 </div>
             </div>
           </form>
-          <ImageSelector />
+          
+          {
+            stateImage ? <ImageSelector /> : null
+          }
 
         </main>
         
@@ -96,9 +101,13 @@ export const FormPost = () => {
                     Agregar Publicación
                 </span>
                 <div className="flex space-x-4">
-                    <button className="p-1 rounded-full text-black/50 dark:text-white/50 hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Agregar imagen">
-                        <Icon icon="mdi:image-outline" className="text-gray-500 text-2xl" />
-                    </button>
+                  <button 
+                    className="p-1 rounded-full text-black/50 dark:text-white/50 hover:bg-gray-200 dark:hover:bg-gray-700" 
+                    aria-label="Agregar imagen"
+                    onClick={() => setStateImage()}
+                  >
+                    <Icon icon="mdi:image-outline" className="text-gray-500 text-2xl" />
+                  </button>
                 </div>
             </div>
         </footer>

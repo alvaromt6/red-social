@@ -1,9 +1,13 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { usePostStore } from "../../store/PostStore";
 
 export const InputPublicar = () => {
+    const { setStateForm } = usePostStore();
     return (
         <div className="p-4 border-b border-gray-200 dark:border-gray-600">
             <input
+                onFocus={() => setStateForm(true)}
+                value={""}
                 type="text"
                 placeholder="Escribir nueva publicación..."
                 className="w-full p-2 rounded focus:outline-none placeholder-gray-500"
