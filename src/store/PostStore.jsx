@@ -1,12 +1,114 @@
 import { create } from "zustand";
 
-export const usePostStore = create((set) => ({
-    file: null,
-    setFile: (p) => set({ file: p }),
-    
-    stateImage: false,
-    setStateImage: () => set((state) => ({ stateImage: !state.stateImage })),
+// Nombre de la tabla en la base de datos
+const tabla = "publicaciones";
 
+/**
+ * Función para insertar una nueva publicación
+ * @param {Object} p - Datos de la publicación
+ * @param {File} file - Archivo de imagen (opcional)
+ * @returns {Object} Datos de la publicación insertada
+ */
+
+const InsertarPost = async (p, file) => {
+    // Insertar la publicación en la base de datos
+    const { data, error } = await supabase
+        .from(tabla)
+        .insert(p)
+        .select()
+        .maybeSingle();
+    
+    if (error) {
+        throw new Error(error.message);
+    }
+    
+    // Si hay un archivo, subirlo y actualizar la publicación con la URL
+    if (file) {
+        const nuevo_id = data?.id;
+        const urlImagen = await SubirArchivo(file, nuevo_id);
+        const pUrl = {
+            url: urlImagen,
+            id: nuevo_id,
+        };
+        
+        await EditarPublicacion(pUrl);
+    }
+    
+    return data;
+};
+
+/**
+ * Función para subir un archivo al storage de Supabase
+ * @param {File} file - Archivo a subir
+ * @param {number} id - ID de la publicación
+ * @returns {string} URL pública del archivo
+ */
+
+const SubirArchivo = async (file, id) => {
+    const ruta = `publicaciones/${id}`;
+    
+    // Subir el archivo al storage
+    const { data, error } = await supabase.storage
+        .from("Archivos")
+        .upload(ruta, file, {
+            cacheControl: "0",
+            upsert: true, // Sobrescribe si ya existe
+        });
+    
+    if (error) {
+        throw new Error(error.message);
+    }
+    
+    // Obtener la URL pública del archivo
+    if (data) {
+        const { data: urlImagen } = await supabase.storage
+            .from("archivos")
+            .getPublicUrl(ruta);
+        
+        return urlImagen.publicUrl;
+    }
+};
+
+/**
+ * Función para editar/actualizar una publicación existente
+ * @param {Object} p - Datos a actualizar (debe incluir id)
+ * @returns {Object} Datos actualizados
+ */
+const EditarPublicacion = async (p) => {
+    const { data, error } = await supabase
+        .from(tabla)
+        .update(p)
+        .eq("id", p.id)
+        .select()
+        .maybeSingle();
+    
+    if (error) {
+        throw new Error(error.message);
+    }
+    
+    return data;
+};
+
+// Store de Zustand para el manejo del estado global
+export const usePostStore = create((set, get) => ({
+    // Estado para el archivo seleccionado
+    file: null,
+    setFile: (file) => set({ file }),
+    
+    // Estado para mostrar/ocultar selector de imagen
+    stateImage: false,
+    setStateImage: () => set((state) => ({ 
+        stateImage: !state.stateImage 
+    })),
+
+    // Estado para mostrar/ocultar formulario
     stateForm: false,
-    setStateForm: (p) => set({ stateForm: p })
+    setStateForm: () => set((state) => ({ 
+        stateForm: !state.stateForm 
+    })),
+
+    // Método para insertar post desde el store
+    insertarPost: async (p, file) => {
+        await InsertarPost(p, file);
+    }
 }));
