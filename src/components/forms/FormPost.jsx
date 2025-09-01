@@ -14,11 +14,11 @@ export const FormPost = () => {
   const textareaRef = useRef(null);
   const pickerRef = useRef(null);
   const [PostText, setPostText] = useState("");
-  const { stateImage, setStateImage, setStateForm } = usePostStore();
-  const { mutate: insertarPost } = useInsertarPostMutate();
-  const { handleSubmit,setValue } = useForm();
+  const { stateImage, setStateImage, setStateForm, file } = usePostStore();
+  const { mutate: insertarPost, isPending } = useInsertarPostMutate();
+  const { handleSubmit, setValue } = useForm();
 
-
+  const puedePublicar = PostText.trim().length > 0 || file !== null;
 
   const addEmoji = (emojiData) => {
 
@@ -69,7 +69,7 @@ export const FormPost = () => {
               <span>{dataUsuario?.nombre}</span>
             </div>
           </section>
-          <form onSubmit={handleSubmit(insertarPost)}>
+          <form onSubmit={handleSubmit(() => insertarPost({ descripcion: PostText }))}>
             <div className="relative ">
               <textarea 
                 ref={textareaRef}
@@ -88,9 +88,33 @@ export const FormPost = () => {
                   </div>
                 )}
                 <div className="mt-4 flex items-center justify-between">
-                  <button type="submit" className=" px-4 py-2 bg-primary text-white rounded-lg font-medium cursor-pointer">Publicar</button>
+                  {/* Botón Publicar */}
+                 <button 
+                    disabled={!puedePublicar || isPending}
+                    type="submit" 
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                      isPending 
+                        ? 'bg-gray-400 opacity-50 cursor-not-allowed' 
+                        : puedePublicar 
+                          ? 'bg-primary hover:bg-primary/90 text-white' 
+                          : 'bg-gray-400 opacity-50 cursor-not-allowed text-gray-600'
+                    }`}
+                  >
+                    {isPending ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Publicando...
+                      </div>
+                    ) : (
+                      'Publicar'
+                    )}
+                  </button>
                   
-                  <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} type="button" className=" text-black/50 dark:text-white/50 hover:bg-gray-700 rounded-full cursor-pointer">
+                  <button 
+                    onClick={() => setShowEmojiPicker(!showEmojiPicker)} 
+                    type="button" 
+                    className=" text-black/50 dark:text-white/50 hover:bg-gray-700 rounded-full cursor-pointer"
+                  >
                     <Icon icon="mdi:emoticon-outline" className="text-2xl"></Icon>
                   </button>
                 </div>
