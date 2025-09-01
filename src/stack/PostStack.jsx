@@ -10,7 +10,7 @@ import { toast } from "sonner";
  * y prepara los datos para la inserción
  */
 export const useInsertarPostMutate = () => {
-    const { insertarPost, file } = usePostStore();
+    const { insertarPost, file, setStateForm, setFile } = usePostStore();
     const fechaActual = useFormattedDate();
     const { dataUsuario: dataUsuarioAuth } = useUsuariosStore();
 
@@ -44,6 +44,8 @@ export const useInsertarPostMutate = () => {
         },
         onSuccess: () => {
             toast.success("Publicado");
+            setStateForm(false);
+            setFile(null);
         }
     });
 };
