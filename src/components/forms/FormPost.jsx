@@ -1,10 +1,12 @@
-import { BtnClose } from "../sidebar/ui/BtnClose";
+import { BtnClose } from "../sidebar/ui/btn/BtnClose";
 import { useUsuariosStore } from "../../store/UsuarioStore";
 import { useRef, useState, useEffect } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { ImageSelector } from "../../hooks/useImageSelector";
 import { usePostStore } from "../../store/PostStore";
+import { useInsertarPostMutate } from "../../stack/PostStack";
+import { useForm } from "react-hook-form";
 
 export const FormPost = () => {
   const { dataUsuario } = useUsuariosStore();
@@ -13,6 +15,10 @@ export const FormPost = () => {
   const pickerRef = useRef(null);
   const [PostText, setPostText] = useState("");
   const { stateImage, setStateImage, setStateForm } = usePostStore();
+  const { mutate: insertarPost } = useInsertarPostMutate();
+  const { handleSubmit,setValue } = useForm();
+
+
 
   const addEmoji = (emojiData) => {
 
@@ -25,8 +31,10 @@ export const FormPost = () => {
     const newText = originalText.substring(0, start) + emojiChar + originalText.substring(end);
     setPostText(newText);
   };
+
   const handleTextChange = (event) => {
     setPostText(event.target.value);
+    setValue("descripcion", event.target.value);
   };
 
   // Detectar clics fuera del selector de emoji y cerrarlo
@@ -61,7 +69,7 @@ export const FormPost = () => {
               <span>{dataUsuario?.nombre}</span>
             </div>
           </section>
-          <form action="">
+          <form onSubmit={handleSubmit(insertarPost)}>
             <div className="relative ">
               <textarea 
                 ref={textareaRef}
