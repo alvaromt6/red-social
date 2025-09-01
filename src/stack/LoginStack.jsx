@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../store/AuthStore";
 
 export const useCrearUsuarioYSesionMutate = () => {
     const { credenciales, creaUserYLogin } = useAuthStore();

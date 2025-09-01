@@ -1,4 +1,4 @@
-import { useSesion } from "../store/authStore"
+import { useSesion } from "../store/AuthStore"
 import { Navigate } from "react-router-dom";
 
 

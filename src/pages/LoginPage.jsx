@@ -2,7 +2,7 @@ import logo from "../assets/react.svg";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useGenerarCodigosAleatorios } from "../hooks/useGenerarCodigosAleatorios";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../store/AuthStore";
 import { useCrearUsuarioYSesionMutate } from "../stack/LoginStack";
 import { Toaster } from "sonner";
 import { useForm } from "react-hook-form";

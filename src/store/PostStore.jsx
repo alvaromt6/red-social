@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { supabase } from "../supabase/supabase.config.jsx";
 
 // Nombre de la tabla en la base de datos
 const tabla = "publicaciones";
