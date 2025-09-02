@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { supabase } from "../supabase/supabase.config.jsx";
+import { data } from "react-router-dom";
 
 // Nombre de la tabla en la base de datos
 const tabla = "publicaciones";
@@ -111,5 +112,27 @@ export const usePostStore = create((set, get) => ({
     // Método para insertar post desde el store
     insertarPost: async (p, file) => {
         await InsertarPost(p, file);
+    },
+    // Estado para almacenar los posts obtenidos de la base de datos
+    dataPost: null,          
+
+    // Función asíncrona para obtener posts de un usuario específico
+    mostrarPost: async (p) => {
+    // Llama a la función RPC 'publicaciones_con_detalles' en Supabase
+    // Pasa el ID del usuario como parámetro
+    const { data, error } = await supabase.rpc("publicaciones_con_detalles",{
+        _id_usuario: p._id_usuario,
+    }).range(p.desde, p.desde + p.hasta -1 ); // Implementa paginación: desde índice 'desde' hasta 'desde + hasta - 1'
+    
+    // Si hay error en la consulta, lanza una excepción
+    if (error) {
+        throw new Error(error.message);
     }
+    
+    // Actualiza el estado local con los datos obtenidos
+    set({ dataPost: data });
+    
+    // Retorna los datos para uso externo (útil para React Query)
+    return data;
+    },
 }));
