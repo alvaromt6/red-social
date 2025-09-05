@@ -8,6 +8,7 @@ import { usePostStore } from "../store/PostStore";
 import { Toaster } from "sonner";
 import { useMostrarPostQuery } from "../stack/PostStack";
 import { throttle } from "../components/utils/throttle";
+import { SpinnerMoonloader } from "../components/sidebar/ui/spinners/SpinnerMoonloader";
 
 export const HomePage = () => {
   // Estado del store para controlar si el modal de crear post está abierto
@@ -121,6 +122,14 @@ export const HomePage = () => {
                 <p className="text-sm">¡Sé el primero en compartir algo!</p>
               </div>
             )}
+
+                       {/* Indicador de carga - se muestra mientras se cargan más publicaciones */}
+            {isFetchingNextPage && (
+              <div className="text-center py-4 text-gray-500">
+                <SpinnerMoonloader />
+              </div>
+            )}
+
           </div>
         </article>
 
