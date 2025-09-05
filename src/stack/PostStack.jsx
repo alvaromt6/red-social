@@ -22,7 +22,7 @@ export const useInsertarPostMutate = () => {
             
             if (file && file.name) {
                 const extension = file.name.split('.').pop()?.toLowerCase();
-                if (extension === "mp4") {
+                if (extension === "mp4" || extension === "mov" || extension === "avi" || extension === "wmv" || extension === "flv" || extension === "mkv") {
                     type = "video";
                 }
             }

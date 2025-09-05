@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { PostImageFrame } from "./PostImageFrame";
+import { PostVideoFrame } from "./PostVideoFrame";
 
 export const PublicacionCard = ({item}) => {
   return (
@@ -24,7 +25,11 @@ export const PublicacionCard = ({item}) => {
         <p className="mt-2">{item?.descripcion}</p>
         <div>
           {
-            item?.url !=="-" && <PostImageFrame src={item?.url} />
+            item?.url !=="-" && (item?.tipo === "imagen") ? (
+              <PostImageFrame src={item?.url} />
+            ) : (item?.tipo === "video") ? (
+              <PostVideoFrame src={item?.url} />
+            ) : null
           }
         </div>
         <div className="flex justify-between mt-4">
