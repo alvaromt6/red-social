@@ -5,9 +5,12 @@ import { PublicacionCard } from "../components/HomePageComponents/PublicacionCar
 import { FormPost } from "../components/forms/formPost";
 import { usePostStore } from "../store/PostStore";
 import { Toaster } from "sonner";
+import { useMostrarPostQuery } from "../stack/PostStack";
+
 
 export const HomePage = () => {
   const { stateForm } = usePostStore();
+  const {data:dataPost} = useMostrarPostQuery();
 
   return (
     <main className="flex min-h-screen bg-white dark:bg-bg-dark max-w-[1200px] mx-auto ">
@@ -16,9 +19,25 @@ export const HomePage = () => {
       <section className="flex flex-col w-full h-screen ">
         <article className="flex flex-col h-screen overflow-hidden border border-gray-200 border-t-0 border-b-0 dark:border-gray-600">
           <HeaderSticky/>
-          <div className="overflow--y-auto">
+          <div className="overflow-y-auto">
             <InputPublicar/>
-            <PublicacionCard/>
+            {
+              dataPost?.pages?.map((page, pageIndex) => 
+                page?.map((item, index) => (
+                  <PublicacionCard 
+                    key={item.id || `${pageIndex}-${index}`} // Usar ID único si existe
+                    item={item} 
+                  />
+                ))
+              )
+            }
+            {dataPost?.pages?.[0]?.length === 0 && (
+              <div className="text-center py-8 text-gray-500">
+                <p>No hay publicaciones aún</p>
+                <p className="text-sm">¡Sé el primero en compartir algo!</p>
+              </div>
+            )}
+                        
           </div>
         </article>
         {/* <article>

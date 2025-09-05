@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { PostImageFrame } from "./PostImageFrame";
 
-export const PublicacionCard = () => {
+export const PublicacionCard = ({item}) => {
   return (
     <div className="border-b border-gray-500/50 p-4 ">
       <div className="flex justify-between">
@@ -21,7 +21,7 @@ export const PublicacionCard = () => {
 
       </div>
       <div  className="mt-3">
-        <p className="mt-2">Titulo</p>
+        <p className="mt-2">{item?.descripcion}</p>
         <div>
           <PostImageFrame src={"https://imgs.search.brave.com/TqdXmekdSaBRSSavrOLF3m8m7reFObU-iD2aEPxtq6Y/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvMjcx/MzIxNy5qcGc"} />
         </div>
