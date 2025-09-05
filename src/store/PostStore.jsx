@@ -64,7 +64,7 @@ const SubirArchivo = async (file, id) => {
     // Obtener la URL pública del archivo
     if (data) {
         const { data: urlImagen } = await supabase.storage
-            .from("archivos")
+            .from("Archivos")
             .getPublicUrl(ruta);
         
         return urlImagen.publicUrl;
