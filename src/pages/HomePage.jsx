@@ -9,6 +9,7 @@ import { Toaster } from "sonner";
 import { useMostrarPostQuery } from "../stack/PostStack";
 import { throttle } from "../components/utils/throttle";
 import { SpinnerMoonloader } from "../components/sidebar/ui/spinners/SpinnerMoonloader";
+import { useSupabaseSubscription } from "../hooks/useSupabaseSubscription";
 
 export const HomePage = () => {
   // Estado del store para controlar si el modal de crear post está abierto
@@ -78,6 +79,16 @@ export const HomePage = () => {
       };
     }
   }, [handleScroll]);
+
+  useSupabaseSubscription({
+    channelName: "public:publicaciones",
+    options: {
+      event: "*",
+      schema: "public",
+      table: "publicaciones",
+    },
+    queryKey: ["mostrar-post"],
+  })
 
   return (
     <main className="flex min-h-screen bg-white dark:bg-bg-dark max-w-[1200px] mx-auto">
