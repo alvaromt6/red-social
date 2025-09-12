@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { supabase } from "../supabase/supabase.config.jsx";
-import { data } from "react-router-dom";
 
 // Nombre de la tabla en la base de datos
 const tabla = "publicaciones";
@@ -93,6 +92,8 @@ const EditarPublicacion = async (p) => {
 
 // Store de Zustand para el manejo del estado global
 export const usePostStore = create((set, get) => ({
+    itemSelect: null,
+    setItemSelect: (p) => set({ itemSelect: p }),
     // Estado para el archivo seleccionado
     file: null,
     setFile: (file) => set({ file }),
@@ -135,4 +136,12 @@ export const usePostStore = create((set, get) => ({
     // Retorna los datos para uso externo (útil para React Query)
     return data;
     },
+
+    // Método para dar like o dislike a una publicación
+    likePost: async (p) => {
+        const { error } = await supabase.rpc("toggle_like",p);
+        if (error) { throw new Error(error.message);
+        }
+    },
+
 }));

@@ -50,7 +50,6 @@ export const useInsertarPostMutate = () => {
     });
 };
 
-
 // Hook personalizado para manejar la consulta infinita de posts
 export const useMostrarPostQuery = () => {
    // Obtiene los datos del usuario logueado desde el store
@@ -89,4 +88,23 @@ export const useMostrarPostQuery = () => {
        // Parámetro inicial para la primera página
        initialPageParam: 0,
    });
+};
+
+export const useLikePostMutate = () => {
+    const { likePost, itemSelect } = usePostStore();
+    const { dataUsuario: dataUsuarioAuth } = useUsuariosStore();
+
+    return useMutation({
+        mutationKey: ["like-post"],
+        mutationFn: () => {
+            return likePost({ 
+                p_post_id: itemSelect?.id, 
+                p_user_id: dataUsuarioAuth?.id
+            });
+        },
+        onError: (error) => {
+            console.error("Error completo en like:", error);
+            toast.error("Error al dar like: " + error.message);
+        },
+    });
 };
