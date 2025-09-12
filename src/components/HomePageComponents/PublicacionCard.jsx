@@ -1,8 +1,12 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { PostImageFrame } from "./PostImageFrame";
 import { PostVideoFrame } from "./PostVideoFrame";
+import { usePostStore } from "../../store/PostStore";
+import { useLikePostMutate } from "../../stack/PostStack";
 
 export const PublicacionCard = ({item}) => {
+  const { setItemSelect } = usePostStore();
+  const { mutate: likePost } = useLikePostMutate();
   return (
     <div className="border-b border-gray-500/50 p-4 ">
       <div className="flex justify-between">
@@ -33,18 +37,35 @@ export const PublicacionCard = ({item}) => {
           }
         </div>
         <div className="flex justify-between mt-4">
-          <button className="flex items-center gap-2 cursor-pointer">
-            <Icon icon="mdi:thumb-up" className="text-3xl p-1 rounded-full text-gray-400 hover:bg-[rgba(78,184,223,0.2)] cursor-pointer"/>
-            {/* <span className="text-xs md:text-sm text-gray-400">Me Gusta</span> */}
+          <button 
+            onClick={() => {
+              setItemSelect(item);
+              likePost();
+            }} 
+            className="flex items-center gap-2 cursor-pointer">
+
+            <Icon
+              icon={item?.like_usuario_actual?"mdi:heart":"mdi:heart-outline"}
+              className={`text-3xl p-1 rounded-full ${item?.like_usuario_actual ? "text-red-500" : "text-gray-400 "}  hover:bg-[rgba(78,184,223,0.2)] cursor-pointer`}
+            />
+            
           </button>
           <button className="flex items-center gap-2 cursor-pointer ">
-            <Icon icon="mdi:comment" className="text-3xl p-1 rounded-full text-gray-400 hover:bg-[rgba(78,184,223,0.2)] cursor-pointer"/>
-            {/* <span className="text-xs md:text-sm text-gray-400">Comentar</span> */}
+            <Icon 
+              icon="mdi:comment-outline" 
+              className="text-3xl p-1 rounded-full text-gray-400 hover:bg-[rgba(78,184,223,0.2)] cursor-pointer"
+            />
+            
           </button>
 
         </div>
-      </div>
+        <div className="flex gap-4 mt-1">
+          {
+            item?.likes > 0 && <span className="text-xs text-gray-400">{item?.likes} Me gusta</span>
+          }
 
+        </div>
+      </div>
     </div>
   );
 };
