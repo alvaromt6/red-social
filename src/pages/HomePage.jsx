@@ -10,6 +10,7 @@ import { useMostrarPostQuery } from "../stack/PostStack";
 import { throttle } from "../components/utils/throttle";
 import { SpinnerMoonloader } from "../components/sidebar/ui/spinners/SpinnerMoonloader";
 import { useSupabaseSubscription } from "../hooks/useSupabaseSubscription";
+import { ComentarioModal } from "../components/HomePageComponents/ComentarioModal";
 
 export const HomePage = () => {
   // Estado del store para controlar si el modal de crear post está abierto
@@ -149,6 +150,7 @@ export const HomePage = () => {
         {/* <article>
           Side Derecho
         </article> */}
+        <ComentarioModal  />
       </section>
     </main>
   );
