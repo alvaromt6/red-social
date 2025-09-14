@@ -16,7 +16,7 @@ export const LoginPage = () => {
 
   const { setCredenciales } = useAuthStore();
   const { handleSubmit } = useForm();
-  const { isPeding, mutate } = useCrearUsuarioYSesionMutate();
+  const { isPending, mutate } = useCrearUsuarioYSesionMutate();
 
   useEffect(() => {
     const respuesta = useGenerarCodigosAleatorios();
@@ -24,7 +24,7 @@ export const LoginPage = () => {
     setCredenciales({ email: correoCompleto, password: respuesta });
     setEmail(correoCompleto);
     setPassword(respuesta);
-  }, []);
+  }, [setCredenciales]);
 
   return (
     <main className="h-screen flex w-full">
@@ -33,10 +33,10 @@ export const LoginPage = () => {
       <section className="hidden md:flex md:w-1/2 bg-[#00b0f0] flex-col justify-center items-center overflow-hidden">
         <div className="px-8 text-white text-center flex flex-col gap-2">
           <div className="flex items-center gap-3 justify-center">
-            <img src={logo} alt="" className="h-10 w-10" />
+            <img src={logo} alt="Logo Red Social" className="h-10 w-10" />
             <span className="text-4xl font-bold text-[#CCEFFC]">Red Social</span>
           </div>
-          <span className="text-3cl font-semibold mb-2">
+          <span className="text-3xl font-semibold mb-2">
             Inicia sesión para continuar
           </span>
         </div>
@@ -51,9 +51,11 @@ export const LoginPage = () => {
           <form className="flex flex-col gap-4" onSubmit={handleSubmit(mutate)}>
             <div className="mb-4">
               <input
-                type="text"
+                type="email"
                 placeholder="Email"
                 value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0091EA]"
               />
             </div>
@@ -62,6 +64,8 @@ export const LoginPage = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Contraseña"
                 value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0091EA]"
               />
               <button
@@ -69,16 +73,17 @@ export const LoginPage = () => {
                 onClick={togglePasswordVisibility}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
                 tabIndex={-1}
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               >
                 <Icon icon={showPassword ? "mdi:eye-off" : "mdi:eye"} />
               </button>
             </div>
             <button
               type="submit"
-              className="w-full bg-[#00AFF0] text-white font-medium py-3 rounded-full transition-colors duration-200 cursor-pointer hover:bg-[#0091EA]"
-              disabled={isPeding}
+              className="w-full bg-[#00AFF0] text-white font-medium py-3 rounded-full transition-colors duration-200 cursor-pointer hover:bg-[#0091EA] disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isPending}
             >
-              Iniciar sesión
+              {isPending ? "Iniciando sesión..." : "Iniciar sesión"}
             </button>
           </form>
           <div className="mt-4 text-xs text-gray-500 text-center">
