@@ -11,8 +11,10 @@ import { throttle } from "../components/utils/throttle";
 import { SpinnerMoonloader } from "../components/sidebar/ui/spinners/SpinnerMoonloader";
 import { useSupabaseSubscription } from "../hooks/useSupabaseSubscription";
 import { ComentarioModal } from "../components/HomePageComponents/ComentarioModal";
+import { useComentarioStore } from "../store/ComentarioStore";
 
 export const HomePage = () => {
+  const { showModal } = useComentarioStore();
   // Estado del store para controlar si el modal de crear post está abierto
   const { stateForm } = usePostStore();
   
@@ -150,7 +152,10 @@ export const HomePage = () => {
         {/* <article>
           Side Derecho
         </article> */}
-        <ComentarioModal  />
+        {/* Modal de comentarios - se muestra al interactuar con una publicación */}
+        { showModal && (
+          <ComentarioModal  />
+        )}
       </section>
     </main>
   );
