@@ -7,10 +7,10 @@ export const InputPublicar = () => {
         <div className="p-4 border-b border-gray-200 dark:border-gray-600">
             <input
                 onFocus={() => setStateForm(true)}
-                value={""}
                 type="text"
                 placeholder="Escribir nueva publicación..."
                 className="w-full p-2 rounded focus:outline-none placeholder-gray-500"
+                readOnly
             />
             <div className="flex gap-4 mt-2 text-gray-400">
                 <Icon icon="mdi:image-outline" className="text-2xl" />
