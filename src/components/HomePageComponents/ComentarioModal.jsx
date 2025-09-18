@@ -4,6 +4,7 @@ import { BtnClose } from "../sidebar/ui/btn/BtnClose";
 import { Icon } from "@iconify/react";
 import EmojiPicker from "emoji-picker-react";
 import { useComentarioStore } from "../../store/ComentarioStore";
+import { useUsuariosStore } from "../../store/UsuarioStore";
 
 export const ComentarioModal = () => {
   const [Comentario, setComentario] = useState("");
@@ -12,6 +13,8 @@ export const ComentarioModal = () => {
     setComentario: setComentario 
   });
   const { setShowModal} = useComentarioStore();
+  const { dataUsuario } = useUsuariosStore();
+  const { itemSelect: item } = usePostStore();
 
   const textComentarioRef = useRef(null);
   const pickerRef = useRef(null);
@@ -54,16 +57,16 @@ export const ComentarioModal = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 text-black dark:text-white">
               <img
-                src="https://www.hazunaweb.com/imagenes/prueba.jpg"
+                src={item?.foto_perfil}
                 alt="Avatar del usuario"
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div className="flex flex-col">
                 <span className="font-bold text-sm md:text-base lg:max-w-none max-w-[200px] truncate">
-                  nombre_usuario
+                  {item?.nombre_usuario}
                 </span>
                 <span className="text-sm text-gray-600 dark:text-gray-400">
-                  descripción
+                  {item?.descripcion}
                 </span>
               </div>
             </div>
@@ -82,7 +85,7 @@ export const ComentarioModal = () => {
         <footer className="sticky bottom-0 p-4 bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <img 
-              src="https://www.hazunaweb.com/imagenes/prueba.jpg" 
+              src={dataUsuario?.foto_perfil} 
               alt="Tu avatar" 
               className="w-10 h-10 rounded-full object-cover flex-shrink-0"
             />

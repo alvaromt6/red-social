@@ -14,9 +14,9 @@ export const PublicacionCard = ({item}) => {
     <div className="border-b border-gray-500/50 p-4 ">
       <div className="flex justify-between">
         <div className="flex items-center gap-3">
-            <img src="https://www.hazunaweb.com/imagenes/prueba.jpg" alt="imagen de perfil" className="w-12 h-12 rounded-full object-cover" />
+            <img src={item?.foto_perfil} alt="imagen de perfil" className="w-12 h-12 rounded-full object-cover" />
             <span className="font-bold">
-                Nombre de usuario
+                {item?.nombre_usuario}
             </span>
 
         </div>
@@ -71,7 +71,7 @@ export const PublicacionCard = ({item}) => {
           }
 
           {
-            item?.comentarios_count == 0 && <span className="text-xs text-gray-400 cursor-pointer hover:underline">{item?.comentarios_count} Comentarios</span>
+            item?.comentarios_count > 0 && <span className="text-xs text-gray-400 cursor-pointer hover:underline">{item?.comentarios_count} Comentarios</span>
           }
 
         </div>
