@@ -16,4 +16,11 @@ export const useComentarioStore = create((set) => ({
             throw new Error(error.message);
         }
     },
+        mostrarComentario: async(p) => {
+        const {data, error} = await supabase.rpc("comentarios_con_respuestas",p);
+        if(error) {
+            throw new Error(error.message);
+        }
+        return data;
+    },
 }));
