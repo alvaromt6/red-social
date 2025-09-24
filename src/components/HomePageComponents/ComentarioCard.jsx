@@ -1,4 +1,8 @@
+import { useRelativeTime } from "../../hooks/useRelativeTime";
+
 export const ComentarioCard = ({item}) => {
+  const fechaRelativa = useRelativeTime(item?.fecha);
+
   return (
     <div className="mb-4 last:mb-0">
       <div className="flex items-start gap-3 group relative w-full">
@@ -15,6 +19,9 @@ export const ComentarioCard = ({item}) => {
             <p className="text-gray-900 dark:text-gray-100 break-words leading-relaxed">
               {item?.comentario}
             </p>
+          </div>
+          <div className="flex gap-3 mt-1 text-xs text-gray-500 ml-2 relative">
+            <span>{fechaRelativa}</span>
           </div>
           
           {/* Contador de respuestas */}
