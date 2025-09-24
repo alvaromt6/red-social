@@ -93,6 +93,16 @@ export const HomePage = () => {
     queryKey: ["mostrar-post"],
   })
 
+    useSupabaseSubscription({
+    channelName: "public:comentarios",
+    options: {
+      event: "*",
+      schema: "public",
+      table: "comentarios",
+    },
+    queryKey: ["mostrarComentario"],
+  })
+
   return (
     <main className="flex min-h-screen bg-white dark:bg-bg-dark max-w-[1200px] mx-auto">
       {/* Componente para mostrar notificaciones tipo toast */}
