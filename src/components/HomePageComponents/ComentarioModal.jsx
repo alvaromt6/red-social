@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import { useInsertarComentarioMutate } from "../../stack/ComentarioStack";
+import { useInsertarComentarioMutate, useMostrarComentariosQuery } from "../../stack/ComentarioStack";
 import { BtnClose } from "../sidebar/ui/btn/BtnClose";
 import { Icon } from "@iconify/react";
 import EmojiPicker from "emoji-picker-react";
 import { useComentarioStore } from "../../store/ComentarioStore";
 import { useUsuariosStore } from "../../store/UsuarioStore";
+import { usePostStore } from "../../store/PostStore";
+import { SpinnerMoonloader } from "../sidebar/ui/spinners/SpinnerMoonloader";
+import { ComentarioCard } from "./ComentarioCard";
+
 
 export const ComentarioModal = () => {
   const [Comentario, setComentario] = useState("");
@@ -13,6 +17,8 @@ export const ComentarioModal = () => {
     setComentario: setComentario 
   });
   const { setShowModal} = useComentarioStore();
+  const { isLoading: isLoadingComentarios, data: comentarios } = useMostrarComentariosQuery();
+
   const { dataUsuario } = useUsuariosStore();
   const { itemSelect: item } = usePostStore();
 
@@ -76,9 +82,21 @@ export const ComentarioModal = () => {
 
         <section className="flex-1 overflow-y-auto p-4">
           <div className="text-center text-gray-500 dark:text-gray-400 py-8">
-            <Icon icon="mdi:comment-outline" className="text-4xl mx-auto mb-2 opacity-50" />
-            <p>Sin comentarios</p>
-            <p className="text-sm mt-1">Sé el primero en comentar</p>
+            
+            {isLoadingComentarios ? (
+              <SpinnerMoonloader />
+            ) : comentarios?.length > 0 ? (
+              comentarios.map((item, index) => (
+                <ComentarioCard key={item.id || index} item={item} />
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <Icon icon="mdi:comment-outline" className="text-4xl mx-auto mb-2 opacity-50" />
+                <p className="text-sm mt-1">Sé el primero en comentar</p>
+              </div>
+            )}
+                        
+            
           </div>
         </section>
 
