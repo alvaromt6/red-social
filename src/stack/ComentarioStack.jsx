@@ -4,6 +4,7 @@ import { useUsuariosStore } from '../store/UsuarioStore';
 import { usePostStore } from '../store/PostStore';
 import { useFormattedDate } from '../hooks/useFormattedDate';
 import { toast } from 'sonner';
+import { useQuery } from '@tanstack/react-query';
 
 
 export const useInsertarComentarioMutate = (p) => {
@@ -29,3 +30,12 @@ export const useInsertarComentarioMutate = (p) => {
         }
     });
 };
+
+export const useMostrarComentariosQuery = () => {
+    const { mostrarComentario } = useComentarioStore();
+    const { itemSelect } = usePostStore();
+    return useQuery({
+        queryKey: ['mostrarComentario', { _id_publicacion: itemSelect?.id }],
+        queryFn: () => mostrarComentario({ _id_publicacion: itemSelect?.id })
+    })
+}
