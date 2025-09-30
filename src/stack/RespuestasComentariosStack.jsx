@@ -10,9 +10,10 @@ export const useInsertarRespuestaComentarioMutate = () => {
     insertarRespuestaComentarios,
     respuestaActivaParaComentarioId,
     respuesta,
-    setRespuesta,limpiarRespuestaActiva
+    setRespuesta, 
+    limpiarRespuestaActiva
   } = useRespuestasComentariosStore();
-  const { dataUsuarioAuth } = useUsuariosStore();
+  const { dataUsuario } = useUsuariosStore();
   const fechaAtual = useFormattedDate();
   return useMutation({
     mutationKey: ["insertar respuesta a comentario"],
@@ -21,7 +22,7 @@ export const useInsertarRespuestaComentarioMutate = () => {
         id_comentario: respuestaActivaParaComentarioId,
         comentario: respuesta,
         fecha: fechaAtual,
-        id_usuario: dataUsuarioAuth?.id,
+        id_usuario: dataUsuario?.id,
       }),
     onError: (error) => {
       toast.error("Error al insertar respuesta: " + error.message);
