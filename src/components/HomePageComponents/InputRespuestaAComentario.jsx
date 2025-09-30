@@ -3,6 +3,7 @@ import { useInsertarRespuestaComentarioMutate } from "../../stack/RespuestasCome
 import { useState, useRef, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import EmojiPicker from "emoji-picker-react";
+import { useRespuestasComentariosStore } from "../../store/RespuestasComentariosStore";
 
 export const InputRespuestaAComentario = () => {
   const textComentarioRef = useRef(null);
@@ -11,6 +12,7 @@ export const InputRespuestaAComentario = () => {
   const [comentario, setComentario] = useState("");
   const { mutate: comentarioMutate } = useInsertarRespuestaComentarioMutate();
   const { dataUsuario } = useUsuariosStore();
+  const { setRespuesta } = useRespuestasComentariosStore();
 
   const addEmoji = (emojiData) => {
     const emojiChar = emojiData.emoji;
@@ -27,6 +29,7 @@ export const InputRespuestaAComentario = () => {
 
     setComentario(newText);
     setShowEmojiPicker(false);
+    setRespuesta(newText);
   };
 
   useEffect(() => {
@@ -54,7 +57,10 @@ export const InputRespuestaAComentario = () => {
             <input
               ref={textComentarioRef}
               value={comentario}
-              onChange={(e) => setComentario(e.target.value)}
+              onChange={(e) =>{
+                setRespuesta(e.target.value);
+                setComentario(e.target.value);
+              }}
               type="text"
               placeholder="Escribe un comentario..."
               className="flex-1 bg-gray-100 dark:bg-neutral-800 text-black dark:text-white text-sm rounded-2xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
