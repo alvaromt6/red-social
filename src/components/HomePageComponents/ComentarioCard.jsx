@@ -1,10 +1,18 @@
 import { useRelativeTime } from "../../hooks/useRelativeTime";
+import { useComentarioStore } from "../../store/ComentarioStore";
 import { useRespuestasComentariosStore } from "../../store/RespuestasComentariosStore";
 import { InputRespuestaAComentario } from "./InputRespuestaAComentario";
+import { RespuestaCard } from "./RespuestaCard";
 
 export const ComentarioCard = ({item}) => {
   const fechaRelativa = useRelativeTime(item?.fecha);
-  const { respuestaActivaParaComentarioId, setRespuestaActiva, limpiarRespuestaActiva } = useRespuestasComentariosStore();
+  const { 
+    respuestaActivaParaComentarioId, 
+    setRespuestaActiva,
+    limpiarRespuestaActiva,
+    dataRespuestaComentario,
+  } = useRespuestasComentariosStore();
+  const { setItemSelect, itemSelect: itemSelectComentario } = useComentarioStore();
 
   return (
     <div className="mb-4 last:mb-0">
@@ -25,16 +33,24 @@ export const ComentarioCard = ({item}) => {
           </div>
           <div className="flex gap-3 mt-1 text-xs text-gray-500 ml-2 relative">
             <span>{fechaRelativa}</span>
-            <button className="hover:underline cursor-pointer" onClick={() => {
-              respuestaActivaParaComentarioId === item?.id ? limpiarRespuestaActiva() : setRespuestaActiva(item?.id)
-            }}>
+            <button 
+              className="hover:underline cursor-pointer" 
+              onClick={() => {
+                respuestaActivaParaComentarioId === item?.id 
+                  ? limpiarRespuestaActiva() 
+                  : setRespuestaActiva(item?.id);
+              }}
+            >
               {respuestaActivaParaComentarioId === item?.id ? 'Cancelar' : 'Responder'}
             </button>
           </div>
           
           {/* Contador de respuestas */}
           {item?.respuestas_count > 0 && (
-            <button className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mt-2 ml-2 font-medium transition-colors flex items-center gap-1">
+            <button 
+              className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mt-2 ml-2 font-medium transition-colors flex items-center gap-1 hover:underline cursor-pointer" 
+              onClick={() => setItemSelect(item)}
+            >
               <span>─</span>
               {item?.respuestas_count === 1 
                 ? `Ver ${item?.respuestas_count} respuesta`
@@ -42,11 +58,18 @@ export const ComentarioCard = ({item}) => {
               }
             </button>
           )}
+          
+          {/* Listado de respuestas */}
+          {itemSelectComentario?.id === item?.id &&
+            dataRespuestaComentario?.map((respuesta) => (
+              <RespuestaCard key={respuesta.id} item={respuesta} />
+            ))}
+
+          {/* Input de respuesta */}
           {respuestaActivaParaComentarioId === item?.id && (
             <div>
               <div className="w-4 h-4 border-l-2 border-b-2 border-gray-300 dark:border-gray-600 rounded-bl-[8px] absolute bottom-18 -ml-[29px]"/>
-                <InputRespuestaAComentario />
-              
+              <InputRespuestaAComentario />
             </div>
           )}
         </div>
