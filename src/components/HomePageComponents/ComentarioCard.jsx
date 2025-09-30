@@ -1,7 +1,10 @@
 import { useRelativeTime } from "../../hooks/useRelativeTime";
+import { useRespuestasComentariosStore } from "../../store/RespuestasComentariosStore";
+import { InputRespuestaAComentario } from "./InputRespuestaAComentario";
 
 export const ComentarioCard = ({item}) => {
   const fechaRelativa = useRelativeTime(item?.fecha);
+  const { respuestaActivaParaComentarioId, setRespuestaActiva, limpiarRespuestaActiva } = useRespuestasComentariosStore();
 
   return (
     <div className="mb-4 last:mb-0">
@@ -22,6 +25,11 @@ export const ComentarioCard = ({item}) => {
           </div>
           <div className="flex gap-3 mt-1 text-xs text-gray-500 ml-2 relative">
             <span>{fechaRelativa}</span>
+            <button className="hover:underline cursor-pointer" onClick={() => {
+              respuestaActivaParaComentarioId === item?.id ? limpiarRespuestaActiva() : setRespuestaActiva(item?.id)
+            }}>
+              {respuestaActivaParaComentarioId === item?.id ? 'Cancelar' : 'Responder'}
+            </button>
           </div>
           
           {/* Contador de respuestas */}
@@ -33,6 +41,13 @@ export const ComentarioCard = ({item}) => {
                 : `Ver ${item?.respuestas_count} respuestas`
               }
             </button>
+          )}
+          {respuestaActivaParaComentarioId === item?.id && (
+            <div>
+              <div className="w-4 h-4 border-l-2 border-b-2 border-gray-300 dark:border-gray-600 rounded-bl-[8px] absolute bottom-18 -ml-[29px]"/>
+                <InputRespuestaAComentario />
+              
+            </div>
           )}
         </div>
       </div>
