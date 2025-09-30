@@ -102,6 +102,15 @@ export const HomePage = () => {
     },
     queryKey: ["mostrarComentario"],
   })
+      useSupabaseSubscription({
+    channelName: "public:respuestas_comentarios",
+    options: {
+      event: "*",
+      schema: "public",
+      table: "respuestas_comentarios",
+    },
+    queryKey: ["mostrar respuesta comentario"],
+  })
 
   return (
     <main className="flex min-h-screen bg-white dark:bg-bg-dark max-w-[1200px] mx-auto">
