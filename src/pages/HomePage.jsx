@@ -12,8 +12,12 @@ import { SpinnerMoonloader } from "../components/sidebar/ui/spinners/SpinnerMoon
 import { useSupabaseSubscription } from "../hooks/useSupabaseSubscription";
 import { ComentarioModal } from "../components/HomePageComponents/ComentarioModal";
 import { useComentarioStore } from "../store/ComentarioStore";
+import { FormActualizarPerfil } from "../components/forms/FormActualizarPerfil";
+import { useUsuariosStore } from "../store/UsuarioStore";
 
 export const HomePage = () => {
+  const { dataUsuario } = useUsuariosStore();
+
   const { showModal } = useComentarioStore();
   // Estado del store para controlar si el modal de crear post está abierto
   const { stateForm } = usePostStore();
@@ -117,6 +121,9 @@ export const HomePage = () => {
       {/* Componente para mostrar notificaciones tipo toast */}
       <Toaster position="top-center" richColors closeButton />
       
+      {/* Modal de formulario para actualizar perfil - solo se muestra si no tiene foto de perfil */}
+      {dataUsuario?.foto_perfil === "-" && <FormActualizarPerfil />}
+
       {/* Modal de formulario para crear posts - solo se muestra si stateForm es true */}
       {stateForm && <FormPost />}
       
